@@ -1,9 +1,9 @@
-title: Nighthawk-Pages
+title: cpt-frontend
 description: "August 2023 to June 2024"
-owner_name: Tirth Thakkar
-github_username: Tirth-Thakkar
-github_repo: "Nighthawk-Pages"
-baseurl: "/Nighthawk-Pages"
+owner_name: Imaad Muzaffer
+github_username: imaad08
+github_repo: "cpt-frontend"
+baseurl: "/cpt-frontend"
 remote_theme: jekyll/minima
 minima:
   social_links:
