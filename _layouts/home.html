@@ -1,21 +1,16 @@
 ---
-layout: base 
+layout: base
 ---
-
 <div class="home">
   {%- if page.title -%}
     <h1 class="page-heading">{{ page.title }}</h1>
   {%- endif -%}
-
   {{ content | markdownify }}
-
-
   {% if site.paginate %}
     {% assign rawposts = paginator.posts %}
   {% else %}
     {% assign rawposts = site.posts %}
   {% endif %}
-
   <!-- Hide posts if front matter flag hide:true -->
   {% assign posts = ''|split:'' %}
   {% for post in rawposts %}
@@ -23,13 +18,10 @@ layout: base
       {% assign posts = posts|push:post%}
     {% endif %}
   {% endfor %}
-
   <!-- Sort posts by rank, then date -->
   {% assign grouped_posts = posts | group_by: "sticky_rank" | sort: "name", "last" %}
   {% assign sticky_posts = ''|split:'' %}
   {% assign non_sticky_posts = '' | split:'' %}
-
- 
   {% for gp in grouped_posts %}
     {%- if gp.name == "" -%}
       {% assign non_sticky_posts = gp.items | sort: "date" | reverse %}
@@ -37,11 +29,9 @@ layout: base
       {% assign sticky_posts = sticky_posts | concat: gp.items %}
     {%- endif -%}
   {% endfor %}
-
    <!-- Assemble final sorted posts array -->
   {% assign sticky_posts = sticky_posts | sort: "sticky_rank", "last" %}
   {% assign posts = sticky_posts | concat: non_sticky_posts %}
-
   {%- if posts.size > 0 -%}
     {%- if page.list_title -%}
       <h2 class="post-list-heading">{{ page.list_title }}</h2>
@@ -53,13 +43,12 @@ layout: base
         {%- if site.show_image -%}
             {%- include post_list_image_card.html -%}
         {% else %}
-            {%- include post_list_image_card.html -%}    
+            {%- include post_list_image_card.html -%}
         <!-- {%- include post_list.html -%} -->
         {%- endif -%}
       </li>
       {%- endfor -%}
     </ul>
-
     {% if site.paginate and site.posts.size > site.paginate %}
       <div class="pager">
         <ul class="pagination">
@@ -77,7 +66,5 @@ layout: base
         </ul>
       </div>
     {%- endif %}
-
   {%- endif -%}
-
 </div>
