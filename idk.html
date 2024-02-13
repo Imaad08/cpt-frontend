@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme Maker</title>
+</head>
+<body>
+
+<h1>Meme Maker</h1>
+
+<div>
+    <label for="imageInput">Choose Image File:</label>
+    <input type="file" id="imageInput">
+</div>
+
+<div>
+    <label for="topText">Top Text:</label>
+    <input type="text" id="topText" placeholder="Enter top text">
+</div>
+
+<div>
+    <label for="bottomText">Bottom Text:</label>
+    <input type="text" id="bottomText" placeholder="Enter bottom text">
+</div>
+
+<button onclick="makeMeme()">Generate Meme</button>
+
+<div id="result"></div>
+
+<script>
+    function makeMeme() {
+        const imageInput = document.getElementById('imageInput');
+        const topText = document.getElementById('topText').value;
+        const bottomText = document.getElementById('bottomText').value;
+    
+        const file = imageInput.files[0];
+
+        // Check if an image is selected
+        if (file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+    
+            // Set up the onloadend event handler
+            reader.onload = function (e) {
+                // Base64-encoded image data
+                const base64image = e.target.result.split(',')[1];
+    
+                // Make a POST request to the Flask API endpoint
+                fetch('https://localhost:8762/api/memeforge/maker', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    mode: 'cors',
+                    cache: 'default',
+                    credentials: 'omit',
+                    body: JSON.stringify({
+                        base64image: base64image,
+                        top_text: topText,
+                        bottom_text: bottomText,
+                        addToHistory: true,
+                        filename: 'meme4',
+                    }),
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Display the generated meme
+                    document.getElementById('result').innerHTML = `<img src="data:image/png;base64, ${data.base64image}" alt="Generated Meme">`;
+                })
+                .catch(error => console.error('Error:', error));
+            };
+    
+            // Read the selected file as data URL (base64)
+            reader.readAsDataURL(file);
+        } 
+        
+    }
+    
+
+    
+</script>
+
+</body>
+</html>

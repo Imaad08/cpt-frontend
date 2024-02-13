@@ -1,0 +1,82 @@
+<head>
+    <!-- load jQuery and DataTables output style and scripts -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+</head>
+
+<h2>Image upload history:</h2>
+<button class="button" onclick="clearDatabase()">Clear Image History</button>
+<button class="button" onclick="refreshPage()">Refresh Database</button>
+<table id="demo" class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Function</th>
+            <th>Image</th>
+            <th>Download</th>
+        </tr>
+    </thead>
+    <tbody id="imageTables">
+    </tbody>
+</table>
+<script>
+    // setting up url
+    const apiUrl = "http://localhost:8762/api/memeforge/get_database";
+    const apiUrl2 = "http://localhost:8762/api/memeforge/clear_database";
+    let images = [];
+    let downloadButtons = [];
+
+    // handle downloading images
+    function downloadImage(imageData, imageName) {
+        const link = document.createElement('a');
+        link.href = 'data:image/jpeg;base64,' + imageData; // Update the MIME type if needed
+        link.download = imageName;
+        link.click();
+    }
+
+    // fetches data from the url
+    function fetchDatabase() {
+        fetch(apiUrl)
+        // parsing as json
+        .then(response => response.json())
+        .then(response => {
+            if (response.status === 401) {
+                window.location.href = '{{site.baseurl}}/login';
+                return;
+              }
+              if (response.status === 403){
+                window.location.href = '{{site.baseurl}}/403';
+                return;
+              }
+            var images = JSON.parse(response).reverse();
+            console.log(images);
+            for (var element of images) {
+                var fileExtension = element.name.split('.').pop();
+                var downloadButton = `<button class="button" onclick="downloadImage('${element.image}', '${element.name}')">Download</button>`;
+                var imageTag = `<img src="data:image/${fileExtension};base64,${element.image}" width="100" height="100" />`;
+
+                $('#demo').DataTable().row.add({
+                    0: element.name,       // Name
+                    1: element.func,       // Function
+                    2: imageTag,           // Image (display the image)
+                    3: downloadButton,     // Download
+                }).draw();
+            }
+        });
+    }
+
+    // calls function to fetch database
+    fetchDatabase();
+
+    function clearDatabase() {
+        fetch(apiUrl2, { method: 'GET' })
+            .catch(err => {
+                error(err + " " + test_url);
+            });
+    }
+
+    function refreshPage() {
+        window.location.reload();
+    }
+</script>
