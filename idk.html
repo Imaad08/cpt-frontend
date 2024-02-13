@@ -11,7 +11,7 @@
 
 <div>
     <label for="imageInput">Choose Image File:</label>
-    <input type="blob" id="imageInput">
+    <input type="file" id="imageInput">
 </div>
 
 <div>
@@ -35,50 +35,64 @@
         const bottomText = document.getElementById('bottomText').value;
     
         const file = imageInput.files;
+        function write_img(file) {
+            var img = new Image()
+
+            img.src = URL.createObjectURL(file)
+            img.onload = function() {
+                document.getElementById('result').appendChild(img)
+                // revoke the url when it's not needed anymore.
+                URL.revokeObjectURL(this.src)
+            }
+
+            img.onerror = function() {
+                // not an image.
+            }
+        }
 
         // Check if an image is selected
-        if (file) {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
+        // if (file) {
+        //     const reader = new FileReader();
+        //     reader.readAsDataURL(file);
     
-            // Set up the onloadend event handler
-            reader.onload = function (e) {
-                // Base64-encoded image data
-                const base64image = e.target.result.split(',')[1];
+        //     // Set up the onloadend event handler
+        //     reader.onload = function (e) {
+        //         // Base64-encoded image data
+        //         const base64image = e.target.result.split(',')[1];
     
-                // Make a POST request to the Flask API endpoint
-                fetch('https://localhost:8762/api/memeforge/maker', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    mode: 'cors',
-                    cache: 'default',
-                    credentials: 'omit',
-                    body: JSON.stringify({
-                        base64image: base64image,
-                        top_text: topText,
-                        bottom_text: bottomText,
-                        addToHistory: true,
-                        filename: 'Title.png',
-                    }),
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Display the generated meme
-                    document.getElementById('result').innerHTML = `<img src="data:image/png;base64, ${data.base64image}" alt="Generated Meme">`;
-                })
-                .catch(error => console.error('Error:', error));
-            };
+        //         // Make a POST request to the Flask API endpoint
+        //         fetch('https://localhost:8762/api/memeforge/maker', {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //             },
+        //             mode: 'cors',
+        //             cache: 'default',
+        //             credentials: 'omit',
+        //             body: JSON.stringify({
+        //                 base64image: base64image,
+        //                 top_text: topText,
+        //                 bottom_text: bottomText,
+        //                 addToHistory: true,
+        //                 filename: 'Title.png',
+        //             }),
+        //         })
+        //         .then(response => {
+        //             if (!response.ok) {
+        //                 throw new Error(`HTTP error! Status: ${response.status}`);
+        //             }
+        //             return response.json();
+        //         })
+        //         .then(data => {
+        //             // Display the generated meme
+        //             document.getElementById('result').innerHTML = `<img src="data:image/png;base64, ${data.base64image}" alt="Generated Meme">`;
+        //         })
+        //         .catch(error => console.error('Error:', error));
+        //     };
     
-            // Read the selected file as data URL (base64)
-            reader.readAsDataURL(file);
-        } 
+        //     // Read the selected file as data URL (base64)
+        //     reader.readAsDataURL(file);
+        // } 
         
     }
     
