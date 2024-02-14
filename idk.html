@@ -27,8 +27,41 @@
 <button onclick="makeMeme()">Generate Meme</button>
 
 <div id="result"></div>
+<div class="container">
+    <div class="bottom-half">
+        <h1 class="p1"><strong>Meme Result</strong></h1>
+        <img id="uploadedImage" src="" alt="Uploaded Image" style="max-width: 100%; display: none;">
+        <br>
+        <button id="downloadButton" class="button">Download Meme</button>
+        <br>
+    </div>
+</div>
+
 
 <script>
+    const options = {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'omit', // include, *same-origin, omit
+        headers: {
+            'Content-Type': 'application/json',
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+    };
+    const post_options = {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'omit', // include, *same-origin, omit
+        headers: {
+            'Content-Type': 'application/json',
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+    };
+    
+    const url = "http://localhost:8762/api/memeforge/maker";
+
     function makeMeme() {
         const imageInput = document.getElementById('imageInput');
         const topText = document.getElementById('topText').value;
@@ -94,6 +127,8 @@
         //     reader.readAsDataURL(file);
         // } 
         
+    }
+}
     }
     
 
