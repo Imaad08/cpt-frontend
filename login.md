@@ -2,7 +2,7 @@
 comments: True
 layout: post
 toc: false
-title: Login
+title: Admin Login
 permalink: /login
 description: Login
 type: hacks
@@ -141,7 +141,7 @@ span.psw2 {
                 console.log(errorMsg);
                 return;
             }
-            window.location.href = "{{site.baseurl}}/";
+            window.location.href = "{{site.baseurl}}/data/database";
         })
         .catch(err => {
             console.error(err);
