@@ -66,66 +66,62 @@
         const imageInput = document.getElementById('imageInput');
         const topText = document.getElementById('topText').value;
         const bottomText = document.getElementById('bottomText').value;
-    
-        const file = imageInput.files;
-        function write_img(file) {
-            var img = new Image()
+        const uploadedImage = document.getElementById('uploadedImage');
+        
+        
+        const file = imageInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
 
-            img.src = URL.createObjectURL(file)
-            img.onload = function() {
-                document.getElementById('result').appendChild(img)
-                // revoke the url when it's not needed anymore.
-                URL.revokeObjectURL(this.src)
-            }
+            // Set up the onloadend event handler
+            reader.onload = function (e) {
+                // Base64-encoded image data
+                const base64image = e.target.result.split(',')[1];
+                const filename = file.name;
+                const fileExtension = filename.split('.').pop();
+                const data = {
+                    base64image: base64image,
+                    top_text: topText,
+                    bottom_text: bottomText,
+                    addToHistory: true,
+                    filename: filename,
+                };
+                console.log(data)
 
-            img.onerror = function() {
-                // not an image.
-            }
-        }
+                const image_options = {...post_options, method: 'POST', body: JSON.stringify(data)};
+    
+                // Make a POST request to the Flask API endpoint
+                fetch(url, image_options )
+                .then(response => {
+                    if (!response.status !=200) {
+                        error('Api error: ' + response.status);
+                        return;
+                    }
+                    respone.json().then(data => {
+                        console.log(data)
+                        const memeImage = new Image();
+                        memeImage.src = 'data:image/' + fileExtension + ';base64,'+ data['base64image'];
 
-        // Check if an image is selected
-        // if (file) {
-        //     const reader = new FileReader();
-        //     reader.readAsDataURL(file);
-    
-        //     // Set up the onloadend event handler
-        //     reader.onload = function (e) {
-        //         // Base64-encoded image data
-        //         const base64image = e.target.result.split(',')[1];
-    
-        //         // Make a POST request to the Flask API endpoint
-        //         fetch('https://localhost:8762/api/memeforge/maker', {
-        //             method: 'POST',
-        //             headers: {
-        //                 'Content-Type': 'application/json',
-        //             },
-        //             mode: 'cors',
-        //             cache: 'default',
-        //             credentials: 'omit',
-        //             body: JSON.stringify({
-        //                 base64image: base64image,
-        //                 top_text: topText,
-        //                 bottom_text: bottomText,
-        //                 addToHistory: true,
-        //                 filename: 'Title.png',
-        //             }),
-        //         })
-        //         .then(response => {
-        //             if (!response.ok) {
-        //                 throw new Error(`HTTP error! Status: ${response.status}`);
-        //             }
-        //             return response.json();
-        //         })
-        //         .then(data => {
-        //             // Display the generated meme
-        //             document.getElementById('result').innerHTML = `<img src="data:image/png;base64, ${data.base64image}" alt="Generated Meme">`;
-        //         })
-        //         .catch(error => console.error('Error:', error));
-        //     };
-    
-        //     // Read the selected file as data URL (base64)
-        //     reader.readAsDataURL(file);
-        // } 
+                        memeImage.style.maxHeight = '100%';
+
+                        uploadedImage.src = memeImage.src;
+                        uploadedImage.style.display = 'block';
+
+                        memeImage.onload = function(){
+                            const parent = document.querySelector('.bottom-half');
+                            const ratio = parent.clientWidth / memeImage.width;
+
+                            if (ratio < 1){
+                                const maxHeight = ratio * memeImage.height
+                                parent.style.height = (maxHeight + 175) + 'px';
+                            } else {
+                                parent.style.height = (memeImage.height + 175) + 'px';
+
+                            }
+                        }
+                    })
+                })
         
     }
 }
