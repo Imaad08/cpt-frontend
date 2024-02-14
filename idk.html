@@ -40,95 +40,97 @@
 
 <script>
     const options = {
-        method: 'GET', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'omit', // include, *same-origin, omit
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default',
+        credentials: 'omit',
         headers: {
             'Content-Type': 'application/json',
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-    };
-    const post_options = {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'omit', // include, *same-origin, omit
-        headers: {
-            'Content-Type': 'application/json',
-            // 'Content-Type': 'application/x-www-form-urlencoded',
         },
     };
     
-    const url = "http://localhost:8762/api/memeforge/maker";
-
+    const post_options = {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'default',
+        credentials: 'omit',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+    
+    const url = "http://127.0.0.1:8762/api/memeforge/maker";
+    
+    function error(message) {
+        console.error(message);
+        // Handle the error as needed, e.g., show an alert or update the UI.
+    }
+    
     function makeMeme() {
         const imageInput = document.getElementById('imageInput');
         const topText = document.getElementById('topText').value;
         const bottomText = document.getElementById('bottomText').value;
         const uploadedImage = document.getElementById('uploadedImage');
-        
-        
+    
         const file = imageInput.files[0];
         if (file) {
             const reader = new FileReader();
             reader.readAsDataURL(file);
-
-            // Set up the onloadend event handler
+    
             reader.onload = function (e) {
-                // Base64-encoded image data
-                const base64image = e.target.result.split(',')[1];
+                const base64data = e.target.result.split(',')[1];
                 const filename = file.name;
                 const fileExtension = filename.split('.').pop();
                 const data = {
-                    base64image: base64image,
+                    base64data: base64data,
                     top_text: topText,
                     bottom_text: bottomText,
                     addToHistory: true,
                     filename: filename,
                 };
-                console.log(data)
-
-                const image_options = {...post_options, method: 'POST', body: JSON.stringify(data)};
     
-                // Make a POST request to the Flask API endpoint
-                fetch(url, image_options )
-                .then(response => {
-                    if (!response.status !=200) {
-                        error('Api error: ' + response.status);
-                        return;
-                    }
-                    respone.json().then(data => {
-                        console.log(data)
-                        const memeImage = new Image();
-                        memeImage.src = 'data:image/' + fileExtension + ';base64,'+ data['base64image'];
-
-                        memeImage.style.maxHeight = '100%';
-
-                        uploadedImage.src = memeImage.src;
-                        uploadedImage.style.display = 'block';
-
-                        memeImage.onload = function(){
-                            const parent = document.querySelector('.bottom-half');
-                            const ratio = parent.clientWidth / memeImage.width;
-
-                            if (ratio < 1){
-                                const maxHeight = ratio * memeImage.height
-                                parent.style.height = (maxHeight + 175) + 'px';
-                            } else {
-                                parent.style.height = (memeImage.height + 175) + 'px';
-
-                            }
+                const image_options = {
+                    method: 'POST',
+                    mode: 'cors',
+                    cache: 'default',
+                    credentials: 'omit',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                };
+    
+                fetch(url, image_options)
+                    .then(response => {
+                        if (response.status !== 200) {
+                            error('Api error: ' + response.status);
+                            return;
                         }
-                    })
-                })
-        
-    }
-}
-    }
+                        response.json().then(data => {
+                            const memeImage = new Image();
+                            memeImage.src = 'data:image/' + fileExtension + ';base64,' + data['base64image'];
     
-
+                            memeImage.style.maxHeight = '100%';
     
+                            uploadedImage.src = memeImage.src;
+                            uploadedImage.style.display = 'block';
+    
+                            memeImage.onload = function () {
+                                const parent = document.querySelector('.bottom-half');
+                                const ratio = parent.clientWidth / memeImage.width;
+    
+                                if (ratio < 1) {
+                                    const maxHeight = ratio * memeImage.height;
+                                    parent.style.height = (maxHeight + 175) + 'px';
+                                } else {
+                                    parent.style.height = (memeImage.height + 175) + 'px';
+                                }
+                            };
+                        });
+                    });
+            };
+        }
+    }
 </script>
 
 </body>
