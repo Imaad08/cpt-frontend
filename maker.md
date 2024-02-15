@@ -5,12 +5,15 @@ permalink: /editor
 ---
 
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meme Maker</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Sixtyfour', sans-serif;
             background-color: #f0f0f0;
             margin: 0;
             padding: 0;
