@@ -1,9 +1,3 @@
----
-layout: post
-title: Gallery
-permalink: /gallery
----
-
 <html lang="en">
 
 <head>
@@ -14,18 +8,30 @@ permalink: /gallery
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background: linear-gradient(to bottom, #b3e0ff, #66ccff); /* Light blue gradient background */
             margin: 0;
             padding: 20px;
         }
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Larger minimum width for each image */
+            gap: 20px;
+        }
+        .gallery-item-container {
+            position: relative;
+            overflow: hidden;
+            animation: glow 2s infinite alternate; /* Animation for the faint, flashing gold glow */
+        }
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 10px gold;
+            }
+            100% {
+                box-shadow: 0 0 20px gold;
+            }
         }
         .gallery-item {
             position: relative;
-            overflow: hidden;
         }
         .gallery-item img {
             width: 100%;
@@ -130,6 +136,8 @@ permalink: /gallery
             const gallery = document.querySelector('.gallery');
             gallery.innerHTML = '';
             images.forEach((image, index) => {
+                const galleryItemContainer = document.createElement('div');
+                galleryItemContainer.className = 'gallery-item-container';
                 const galleryItem = document.createElement('div');
                 galleryItem.className = 'gallery-item';
                 const img = document.createElement('img');
@@ -145,7 +153,8 @@ permalink: /gallery
                 });
                 galleryItem.appendChild(img);
                 galleryItem.appendChild(button);
-                gallery.appendChild(galleryItem);
+                galleryItemContainer.appendChild(galleryItem);
+                gallery.appendChild(galleryItemContainer);
             });
         }
         function openModal(imageData) {
@@ -164,4 +173,3 @@ permalink: /gallery
 </body>
 
 </html>
-
