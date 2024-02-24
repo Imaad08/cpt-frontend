@@ -1,6 +1,5 @@
 ---
 layout: post
-title: Meme Editor
 permalink: /editor
 ---
 
@@ -14,7 +13,7 @@ permalink: /editor
     <style>
         body {
             font-family: 'Sixtyfour', sans-serif;
-            background-color: #f0f0f0;
+            background-color: #cbf6fc;
             margin: 0;
             padding: 0;
         }
