@@ -111,7 +111,7 @@
         <img class="modal-content" id="modal-image">
     </div>
     <script>
-        const apiUrl = "http://localhost:8762/api/memeforge/get_database";
+        const apiUrl = "https://memeforge.stu.nighthawkcodingsociety.com/api/memeforge/get_database";
         let images = [];
         function fetchDatabase() {
             fetch(apiUrl)

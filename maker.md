@@ -136,7 +136,7 @@ permalink: /editor
         },
     };
     
-    const url = "http://localhost:8762/api/memeforge/maker/";
+    const url = "https://memeforge.stu.nighthawkcodingsociety.com/api/memeforge/maker/";
     
     function error(message) {
         console.error(message);
