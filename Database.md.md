@@ -2,7 +2,7 @@
 toc: false
 comments: true
 layout: post
-title: Database
+# title: Database
 description: Database
 type: hacks
 courses: { compsci: { week: 3 } }

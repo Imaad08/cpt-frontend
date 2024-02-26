@@ -9,7 +9,17 @@ type: hacks
 courses: { "compsci": { "week": 2 } }
 ---
 
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap" rel="stylesheet">
 <style>
+  body {
+            font-family: 'Sixtyfour', sans-serif;
+            background: #cbf6fc; /* Light blue gradient background */
+            margin: 0;
+            padding: 20px;
+        }
  #login {
     margin-top: 10px;
     padding-top: 0.75rem;
@@ -25,81 +35,78 @@ courses: { "compsci": { "week": 2 } }
 }
 
 input[type=text], input[type=password] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid black;
-  box-sizing: border-box;
-  background-color: transparent;
+width: 100%;
+padding: 12px 20px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid black;
+box-sizing: border-box;
+background-color: transparent;
 }
 
-/* 
 button {
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 50%;
-  margin-left: 200px;
-} */
+padding: 14px 20px;
+margin: 8px 0;
+border: none;
+cursor: pointer;
+width: 50%;
+margin-left: 200px;
+}
 button {
-  background-color: #6466F1;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 50%;
-  margin-left: 170px;
+background-color: #6466F1;
+color: white;
+padding: 14px 20px;
+margin: 8px 0;
+border: none;
+cursor: pointer;
+width: 50%;
+margin-left: 170px;
 }
 button:hover {
-  opacity: 0.8;
+opacity: 0.8;
 }
 
 .imgcontainer {
-  text-align: center;
-  margin: 24px 0 12px 0;
+text-align: center;
+margin: 24px 0 12px 0;
 }
 
 img.avatar {
-  width: 40%;
-  border-radius: 50%;
+width: 40%;
+border-radius: 50%;
 }
 
 .container {
-  padding: 16px;
+padding: 16px;
 }
 
 span.psw {
-  display: flex;
-  justify-items: center;
-  text-align: center;
-  margin-left: 250px;
-  padding-top: 16px;
+display: flex;
+justify-items: center;
+text-align: center;
+margin-left: 250px;
+padding-top: 16px;
 }
 span.psw2 {
-  display: flex;
-  justify-items:center
-  text-align: center;
-  margin-left: 225px;
+display: flex;
+justify-items:center
+text-align: center;
+margin-left: 225px;
 }
 
 @media screen and (max-width: 300px) {
-  span.psw {
-    display: block;
-    float: none;
-  }
-  .cancelbtn {
-    width: 100%;
-  }
+span.psw {
+display: block;
+float: none;
+}
+.cancelbtn {
+width: 100%;
+}
 }
 
 </style>
+</head>
 <div class="login-container">
-  <div class="imgcontainer">
-    <img src="https://i.ibb.co/JKpXRMP/bird-colorful-logo-gradient-vector-343694-1365.jpg" alt="Avatar" class="avatar">
-  </div>
 
 <form action="javascript:login_user()">
     <label for="uid"><b>Username</b></label>

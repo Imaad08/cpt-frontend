@@ -1,3 +1,7 @@
+---
+title: Gallery
+---
+
 <html lang="en">
 
 <head>
