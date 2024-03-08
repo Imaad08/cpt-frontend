@@ -4,7 +4,8 @@ if (location.hostname === "localhost") {
 } else if (location.hostname === "127.0.0.1") {
         uri = "http://127.0.0.1:8762";
 } else {
-        uri = "https://memeforge.stu.nighthawkcodingsociety.com/";
+        uri = "http://localhost:8762";
+        //uri = "https://memeforge.stu.nighthawkcodingsociety.com/";
 }
 
 export const options = {
