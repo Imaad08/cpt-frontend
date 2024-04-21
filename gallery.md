@@ -122,4 +122,8 @@
         }
         fetchDatabase();
     </script>
+
+<h1>Having Fun?</h1>
+<h1>Check out a python based comment simulator based off memes you love!</h1>
+<h1>Find it in comments.py!</h1>
 </body>
